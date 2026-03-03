@@ -110,12 +110,19 @@ can be concluded.
 
 ## Example Prompts
 "Write a tester determined statement based on this code."
+
 "Make sense of this automated routing logic."
+
 "What boundary testing should we perform?"
+
 "How do I validate this threshold control?"
+
 "Is this evidence sufficient for operating effectiveness?"
+
 "Create a matrix for testing allocation sequencing."
+
 "Draft completeness and accuracy procedures for this report."
+
 "What IPE procedures are required here?"
 
 ---
