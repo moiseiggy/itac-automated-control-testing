@@ -1,191 +1,205 @@
-ITAC Scenario-Based Test Matrix Templates
+# ITAC Scenario-Based Test Matrix Templates
 
-Automated controls must be tested using structured scenario validation.
+> Automated controls must be tested using structured scenario validation —
+> not single "happy path" samples.
+
+---
+
+## Core Requirements
 
 Claude must always:
 
-Identify logic type
+- Identify logic type
+- Identify required test dimensions
+- Include positive, negative, and boundary scenarios
+- Separate design vs. operating effectiveness
+- Avoid relying on a single "happy path" test
 
-Identify required test dimensions
+All matrices are Excel-friendly (pipe-delimited).
 
-Include positive, negative, and boundary scenarios
+---
 
-Separate design vs operating effectiveness
+## Matrix Index
 
-Avoid relying on a single “happy path” test
+| # | Matrix | Use For |
+|---|---|---|
+| 1 | Scenario-Based Logic Validation | Routing, decision engines, branching |
+| 2 | Threshold / Tolerance Validation | Triggers, limits, exposure thresholds |
+| 3 | Allocation Logic Validation | Sequencing, partial payments, multi-step logic |
+| 4 | Aggregation / Transformation Logic | MEA/MPE, risk scoring, exposure calculations |
+| 5 | Parameter Table Validation | Config-driven logic, risk grids, approval matrices |
+| 6 | Migration / Update Logic Validation | Lift-and-shift, modernization, backend migrations |
+| 7 | IPE Validation Overlay | System-generated report reliance |
 
-All matrices must be Excel-friendly (pipe-delimited).
+---
 
-1️⃣ Scenario-Based Logic Validation Matrix (General)
+## 1. Scenario-Based Logic Validation Matrix
 
-Use for:
+**Use for:** Approval routing · Risk-based decision engines · Attribute-based logic · Deterministic branching
 
-Approval routing
+**Control Objective:** [State objective clearly]
 
-Risk-based decision engines
+**Logic Type:** Routing / Threshold / Allocation / Aggregation / Transformation
 
-Attribute-based logic
+### Design Effectiveness — Scenario Testing
 
-Deterministic branching
+| Scenario ID | Input Attributes | Expected Logic Outcome | Rationale (Business Rule) | Observed Outcome | Match (Y/N) | Notes |
+|---|---|---|---|---|---|---|
+| S1 | | | | | | |
+| S2 | | | | | | |
 
-Control Objective:
+**Required scenarios:**
+- Standard condition
+- Elevated risk condition
+- Lower-bound condition
+- Upper-bound condition
+- Negative / exclusion condition
 
-[State objective clearly]
+### Operating Effectiveness — Production Evidence
 
-Logic Type:
+| Scenario ID | Production Evidence Reviewed | Evidence Source | Output Verified | Conclusion |
+|---|---|---|---|---|
+| | | | | |
 
-Routing / Threshold / Allocation / Aggregation / Transformation
+---
 
-Design Effectiveness – Scenario Testing
-Scenario ID	Input Attributes	Expected Logic Outcome	Rationale (Business Rule)	Observed Outcome	Match (Y/N)	Notes
-S1						
-S2						
+## 2. Threshold / Tolerance Validation Matrix
 
-Scenarios must include:
+**Use for:** $X tolerance rules · Trigger conditions · Exposure thresholds · Limit validations
 
-Standard condition
+**Control Objective:** Validate that automated logic triggers appropriately when threshold conditions are met.
 
-Elevated risk condition
+### Boundary Testing
 
-Lower-bound condition
+| Scenario ID | Input Value | Threshold | Expected Behavior | Observed Behavior | Boundary Type | Match (Y/N) | Notes |
+|---|---|---|---|---|---|---|---|
+| B1 | | | | | Below/Equal/Above | | |
+| B2 | | | | | Below/Equal/Above | | |
 
-Upper-bound condition
+**Required boundary scenarios:**
+- Just below threshold
+- Exactly at threshold
+- Just above threshold
 
-Negative / exclusion condition
+### Negative Testing
 
-Operating Effectiveness – Production Evidence
-Scenario ID	Production Evidence Reviewed	Evidence Source	Output Verified	Conclusion
-2️⃣ Threshold / Tolerance Validation Matrix
+| Scenario ID | Invalid / Edge Input | Expected System Handling | Observed Handling | Match (Y/N) |
+|---|---|---|---|---|
+| | | | | |
 
-Use for:
+---
 
-$X tolerance rules
+## 3. Allocation Logic Validation Matrix
 
-Trigger conditions
+**Use for:** Principal vs. interest allocation · Sequencing validation · Multi-step financial logic · Partial payments
 
-Exposure thresholds
+**Control Objective:** Validate allocation sequencing and financial impact are applied per documented business rules.
 
-Limit validations
+### Allocation Sequence Validation
 
-Control Objective:
+| Scenario ID | Transaction Type | Input Amount | Expected Allocation Order | Observed Allocation Order | Balance Impact Verified (Y/N) | Variance | Conclusion |
+|---|---|---|---|---|---|---|---|
+| | | | | | | | |
 
-Validate that automated logic triggers appropriately when threshold conditions are met.
+### Tolerance Impact Validation *(if applicable)*
 
-Boundary Testing
-Scenario ID	Input Value	Threshold	Expected Behavior	Observed Behavior	Boundary Type (Below/Equal/Above)	Match (Y/N)	Notes
-B1							
-B2							
+| Scenario ID | Payment Amount | Tolerance Rule | Expected Behavior | Observed Behavior | Match (Y/N) | Notes |
+|---|---|---|---|---|---|---|
+| | | | | | | |
 
-Boundary scenarios must include:
+---
 
-Just below threshold
+## 4. Aggregation / Transformation Logic Matrix
 
-Exactly at threshold
+**Use for:** MEA/MPE aggregation · Master file logic · Exposure calculations · Risk scoring aggregation
 
-Just above threshold
+**Control Objective:** Validate that aggregation and transformation logic produce accurate outputs.
 
-Negative Testing
-Scenario ID	Invalid / Edge Input	Expected System Handling	Observed Handling	Match (Y/N)
-3️⃣ Allocation Logic Validation Matrix
+### Field-Level Validation
 
-Use for:
+| Scenario ID | Input Records | Aggregation Rule | Expected Output | Observed Output | Match (Y/N) | Notes |
+|---|---|---|---|---|---|---|
+| | | | | | | |
 
-Principal vs interest allocation
+### Sensitivity Testing
 
-Sequencing validation
+| Scenario ID | Attribute Modified | Expected Impact | Observed Impact | Match (Y/N) |
+|---|---|---|---|---|
+| | | | | |
 
-Multi-step financial logic
+---
 
-Partial payments
+## 5. Parameter Table Validation Matrix
 
-Control Objective:
+**Use for:** Config-driven logic · Editable parameter tables · Risk grids · Approval matrices
 
-Validate allocation sequencing and financial impact are applied per documented business rules.
+**Control Objective:** Validate parameter configuration supports intended automated logic.
 
-Allocation Sequence Validation
-Scenario ID	Transaction Type	Input Amount	Expected Allocation Order	Observed Allocation Order	Balance Impact Verified (Y/N)	Variance	Conclusion
-Tolerance Impact Validation (If Applicable)
-Scenario ID	Payment Amount	Tolerance Rule	Expected Behavior	Observed Behavior	Match (Y/N)	Notes
-4️⃣ Aggregation / Transformation Logic Matrix
+### Parameter Completeness
 
-Use for:
+| Parameter Name | Configured Value | Expected Value | Source of Truth | Match (Y/N) | Notes |
+|---|---|---|---|---|---|
+| | | | | | |
 
-MEA/MPE aggregation
+### Parameter Change Monitoring
 
-Master file logic
+| Parameter | Editable? (Y/N) | Change Logged? | Approval Required? | Monitoring Present? | Conclusion |
+|---|---|---|---|---|---|
+| | | | | | |
 
-Exposure calculations
+---
 
-Risk scoring aggregation
+## 6. Migration / Update Logic Validation Matrix
 
-Control Objective:
+**Use for:** Lift-and-shift claims · Modernization testing · Backend migration validation
 
-Validate that aggregation and transformation logic produce accurate outputs.
+**Control Objective:** Validate logic integrity maintained following migration.
 
-Field-Level Validation
-Scenario ID	Input Records	Aggregation Rule	Expected Output	Observed Output	Match (Y/N)	Notes
-Sensitivity Testing
-Scenario ID	Attribute Modified	Expected Impact	Observed Impact	Match (Y/N)
-5️⃣ Parameter Table Validation Matrix
+### Pre/Post Comparison
 
-Use for:
+| Component | Legacy Logic Output | New Logic Output | Variance | Explanation | Conclusion |
+|---|---|---|---|---|---|
+| | | | | | |
 
-Config-driven logic
+### Edge Case Comparison
 
-Editable parameter tables
+| Scenario ID | Legacy Result | New Result | Match (Y/N) | Notes |
+|---|---|---|---|---|
+| | | | | |
 
-Risk grids
+---
 
-Approval matrices
+## 7. IPE Validation Overlay
 
-Control Objective:
+*Apply when the control relies on system-generated output.*
 
-Validate parameter configuration supports intended automated logic.
+### IPE Completeness
 
-Parameter Completeness
-Parameter Name	Configured Value	Expected Value	Source of Truth	Match (Y/N)	Notes
-Parameter Change Monitoring
-Parameter	Editable? (Y/N)	Change Logged?	Approval Required?	Monitoring Present?	Conclusion
-6️⃣ Migration / Update Logic Validation Matrix
+| Report Name | Source System | Record Count | Independent Tie-Out Performed? | Conclusion |
+|---|---|---|---|---|
+| | | | | |
 
-Use for:
+### IPE Accuracy
 
-Lift-and-shift claims
+| Sample ID | Source Value | Reported Value | Match (Y/N) | Notes |
+|---|---|---|---|---|
+| | | | | |
 
-Modernization testing
+---
 
-Backend migration validation
+## Enforcement Rules
 
-Control Objective:
+When generating matrices, always:
 
-Validate logic integrity maintained following migration.
+- Include boundary testing where thresholds apply
+- Include a negative scenario where logic excludes conditions
+- Use multiple scenarios — never a single sample
+- Separate design vs. operating evidence
+- Flag missing production validation
+- Flag missing parameter monitoring
+- Never assume code shown = code deployed
 
-Pre/Post Comparison
-Component	Legacy Logic Output	New Logic Output	Variance	Explanation	Conclusion
-Edge Case Comparison
-Scenario ID	Legacy Result	New Result	Match (Y/N)	Notes
-7️⃣ IPE Validation Overlay
+---
 
-If control relies on system-generated output, include:
-
-IPE Completeness
-Report Name	Source System	Record Count	Independent Tie-Out Performed?	Conclusion
-IPE Accuracy
-Sample ID	Source Value	Reported Value	Match (Y/N)	Notes
-Enforcement Rules for Claude
-
-When generating matrices:
-
-Always include boundary testing where thresholds apply.
-
-Always include negative scenario where logic excludes conditions.
-
-Do not rely on a single scenario.
-
-Separate design vs operating evidence.
-
-Flag missing production validation.
-
-Flag missing parameter monitoring.
-
-Do not assume code shown = deployed.
+*These templates provide documentation structure for IT audit workflows.
+They do not replace professional judgment or formal audit standards.*
