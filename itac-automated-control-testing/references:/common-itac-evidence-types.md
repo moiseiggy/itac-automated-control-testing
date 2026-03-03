@@ -1,460 +1,273 @@
-Purpose
+# ITAC Evidence Types — Reference Guide
+
+> This document defines common ITAC evidence types, what each proves,
+> what it does NOT prove, and when supplemental procedures are required.
+>
+> Claude must reference this before concluding operating effectiveness.
+
+---
+
+## Evidence Index
+
+| # | Evidence Type | IPE Required? |
+|---|---|---|
+| 1 | Source Code | No — but requires supplements |
+| 2 | Configuration / Parameter Tables | No — but requires supplements |
+| 3 | Production Execution Logs | No — but requires supplements |
+| 4 | UI Screenshots | No — but requires supplements |
+| 5 | Query Outputs | **Yes** |
+| 6 | Monitoring & Alert Evidence | No — but requires supplements |
+| 7 | Git History / Version Control | No — but requires supplements |
+| 8 | Data Flow / Architecture Diagrams | No — but requires supplements |
+| 9 | Scenario-Based Sample Evidence | No — but requires supplements |
+| 10 | Reconciliation Evidence | No — but requires supplements |
+
+---
+
+## 1. Source Code
+*(Java, Python, SQL, Go, etc.)*
+
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| Logic structure and conditional statements | Code is deployed to production |
+| Threshold definitions | Logic executed during the period |
+| Aggregation formulas | Parameter tables were unchanged |
+| Allocation sequencing | Monitoring is active |
+| Inclusion / exclusion criteria | Edge cases were exercised |
+| Null handling behavior | |
+
+**Required Supplements:**
+- Git history / last change evidence
+- Production execution logs
+- Parameter table snapshot
+- Scenario output evidence
+
+**Risk if used alone:** Testing design only (not operating) · QA-only logic · Outdated branch reviewed
+
+---
+
+## 2. Configuration / Parameter Tables
+*(Approval grids · Risk rating mapping tables · Threshold config tables · Product routing tables)*
+
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| Decision criteria values | Logic references the table correctly |
+| Routing mappings | Changes are controlled |
+| Tolerance thresholds | Parameters were active during period |
+| Attribute-to-grid relationships | Table is complete |
+
+**Required Supplements:**
+- Code reference confirming table usage
+- Change monitoring evidence
+- Version snapshot
+- Boundary scenario validation
+
+**Common Risk:** Hard-coded override exists outside the configuration table.
+
+---
+
+## 3. Production Execution Logs
+*(Job run logs · Lambda execution logs · Step function runs · Cron job success logs)*
+
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| Automation executed | Correct logic result |
+| Timestamp validation | Correct routing outcome |
+| Error handling evidence | Field-level accuracy |
+| Batch success / failure | Proper aggregation |
+
+**Required Supplements:**
+- Sample output
+- Field-level comparison
+- Scenario validation
+
+---
+
+## 4. UI Screenshots
+*(Dashboard outputs · Approval routing screens · Calculated values · Allocation display)*
+
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| System behavior for that scenario | Complete population |
+| User-visible output | All logic branches tested |
+| Routing result | No upstream filtering |
+| Calculated output displayed | Production execution timing |
+| | Configuration correctness |
+
+**Required Supplements:**
+- Underlying query
+- Code inspection
+- Additional scenarios
+- Population validation
 
-This document defines:
+---
 
-Types of evidence commonly provided for ITAC controls
+## 5. Query Outputs
+*(Snowflake · Postgres · SQL Server · Extracted datasets · Record counts · Reconciliation outputs)*
 
-What each evidence type proves
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| Dataset values at point in time | Query parameters were correct |
+| Record counts | No filters excluded records |
+| Field comparisons | Complete population |
+| Aggregation results | No manual manipulation |
 
-What it does NOT prove
-
-When IPE procedures are required
-
-When supplemental evidence is required
-
-Claude must reference this before concluding operating effectiveness.
-
-1️⃣ Source Code (Java, Python, SQL, Go, etc.)
-What It Proves
-
-Logic structure
-
-Conditional statements (IF/ELSE)
-
-Threshold definitions
-
-Aggregation formulas
-
-Allocation sequencing
-
-Inclusion/exclusion criteria
-
-Parameter usage
-
-Null handling behavior
-
-What It Does NOT Prove
-
-That code is deployed to production
-
-That logic executed during the period
-
-That parameter tables were unchanged
-
-That monitoring is active
-
-That edge cases were exercised
-
-Required Supplements
-
-Git history / last change evidence
-
-Production execution logs
-
-Parameter table snapshot
-
-Scenario output evidence
-
-Risk If Used Alone
-
-Testing design only (not operating)
-
-QA-only logic
-
-Outdated branch reviewed
-
-2️⃣ Configuration / Parameter Tables
-
-Examples:
-
-Approval grids
-
-Risk rating mapping tables
-
-Threshold configuration tables
-
-Product routing tables
-
-What It Proves
-
-Decision criteria values
-
-Routing mappings
-
-Tolerance thresholds
-
-Attribute-to-grid relationships
-
-What It Does NOT Prove
-
-That logic references the table correctly
-
-That changes are controlled
-
-That parameters were active during period
-
-That table is complete
-
-Required Supplements
-
-Code reference confirming table usage
-
-Change monitoring evidence
-
-Version snapshot
-
-Boundary scenario validation
-
-Common Risk
-
-Hard-coded override exists outside configuration.
-
-3️⃣ Production Execution Logs
-
-Examples:
-
-Job run logs
-
-Lambda execution logs
-
-Step function runs
-
-Cron job success logs
-
-What It Proves
-
-Automation executed
-
-Timestamp validation
-
-Error handling evidence
-
-Batch success/failure
-
-What It Does NOT Prove
-
-Correct logic result
-
-Correct routing outcome
-
-Field-level accuracy
-
-Proper aggregation
-
-Required Supplements
-
-Sample output
-
-Field-level comparison
-
-Scenario validation
-
-4️⃣ UI Screenshots
-
-Examples:
-
-Dashboard outputs
-
-Approval routing screens
-
-Calculated values shown in system
-
-Allocation display
-
-What It Proves
-
-System behavior for that scenario
-
-User-visible output
-
-Routing result
-
-Calculated output displayed
-
-What It Does NOT Prove
-
-Complete population
-
-All logic branches tested
-
-No upstream filtering
-
-Production execution timing
-
-Configuration correctness
-
-Required Supplements
-
-Underlying query
-
-Code inspection
-
-Additional scenarios
-
-Population validation
-
-5️⃣ Query Outputs (Snowflake, Postgres, SQL Server, etc.)
-
-Examples:
-
-Extracted dataset
-
-Record counts
-
-Field-level comparisons
-
-Reconciliation outputs
-
-What It Proves
-
-Dataset values at point in time
-
-Record counts
-
-Field comparisons
-
-Aggregation results
-
-What It Does NOT Prove
-
-Query parameters were correct
-
-No filters excluded records
-
-Complete population
-
-No manual manipulation
-
-IPE Required?
-
-Yes.
+**IPE Required? Yes.**
 
 Must validate:
+- Source system
+- Query parameters
+- Timeframe
+- Record count tie-out
 
-Source system
+---
+
+## 6. Monitoring & Alert Evidence
+*(PagerDuty · Splunk · SNS · Alert configurations)*
 
-Query parameters
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| Alert configuration exists | Business logic correctness |
+| Error detection capability | All failures would trigger alert |
+| Notification path | Parameter change detection |
+| Incident handling example | |
 
-Timeframe
+**Required Supplements:**
+- Alert rule definition
+- Trigger condition review
+- Sample triggered alert
 
-Record count tie-out
+---
 
-6️⃣ Monitoring & Alert Evidence (PagerDuty, Splunk, SNS, etc.)
-What It Proves
+## 7. Git History / Version Control Evidence
 
-Alert configuration exists
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| Last modification date | Deployed version matches reviewed version |
+| Commit author | No configuration changes |
+| Change frequency | Logic integrity at runtime |
+| Branch validation | |
 
-Error detection capability
+**Required Supplements:**
+- Deployment pipeline evidence
+- Production environment confirmation
+- Release note confirmation
 
-Notification path
+---
 
-Incident handling example
+## 8. Data Flow / Architecture Diagrams
 
-What It Does NOT Prove
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| Intended system architecture | Real-time execution |
+| Upstream / downstream dependencies | Filtering behavior |
+| Logical data movement | Error handling implementation |
+| | Active system state |
 
-Business logic correctness
+**Required Supplements:**
+- Code inspection
+- Execution logs
+- Field-level validation
 
-All failures would trigger alert
+---
 
-Parameter change detection
+## 9. Scenario-Based Sample Evidence
+*(One credit action · One payment allocation · One tolerance case)*
 
-Required Supplements
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| Logic worked for that scenario | All branches validated |
+| Deterministic outcome observed | Boundary cases handled |
+| | Sensitivity to attribute changes |
+| | Completeness of logic |
 
-Alert rule definition
+**Required Supplements:**
+- Boundary case
+- Negative case
+- Sensitivity test
 
-Trigger condition review
+---
 
-Sample triggered alert
+## 10. Reconciliation Evidence
+*(Counts / balances · Before/after comparisons)*
 
-7️⃣ Git History / Version Control Evidence
-What It Proves
+| What It Proves | What It Does NOT Prove |
+|---|---|
+| No dropped records (if properly tied out) | Correct individual record transformation |
+| Total balance integrity | Correct routing logic |
+| Before / after comparisons | No duplicate processing |
 
-Last modification date
+**Required Supplements:**
+- Field-level comparison
+- Deduplication testing
+- Grouping key validation
 
-Commit author
+---
 
-Change frequency
+## IPE Trigger Guide
 
-Branch validation
+IPE procedures are required when testing relies on any of the following:
 
-What It Does NOT Prove
+- Reports
+- Query outputs used as a population
+- Dashboard exports
+- Reconciliation spreadsheets
+- Record counts used to conclude completeness
 
-Deployed version matches reviewed version
+### Minimum IPE Validation Steps
 
-No configuration changes
+- [ ] Confirm source system
+- [ ] Confirm parameter filters
+- [ ] Confirm timeframe
+- [ ] Tie record count to independent source
+- [ ] Spot-check fields
 
-Logic integrity at runtime
+---
 
-Required Supplements
+## Evidence Strength Ranking
 
-Deployment pipeline evidence
+| Rank | Evidence Combination |
+|---|---|
+| **1 — Strongest** | Code + production execution logs + scenario outputs |
+| **2** | Code + scenario outputs + parameter snapshot |
+| **3** | Scenario outputs + monitoring logs |
+| **4 — Weak** | UI screenshots alone |
+| **5 — Weakest** | Narrative explanations only |
 
-Production environment confirmation
+> Claude should not conclude operating effectiveness using evidence ranked 4 or 5 alone.
 
-Release note confirmation
+---
 
-8️⃣ Data Flow Diagrams / Architecture Diagrams
-What It Proves
+## Escalation Triggers
 
-Intended system architecture
+Escalate if any of the following are present:
 
-Upstream/downstream dependencies
+- No boundary testing performed
+- No negative scenario included
+- Parameter tables not governed
+- QA-only evidence provided
+- No production execution validation
+- Logic differs from documented policy
+- Single sample used to conclude determinism
 
-Logical data movement
+---
 
-What It Does NOT Prove
+## Default Conclusion Guardrail
 
-Real-time execution
+**When evidence is partial, use language such as:**
 
-Filtering behavior
+- "Based on evidence inspected..."
+- "For the in-scope scenario..."
+- "No exceptions were noted for the sample reviewed..."
+- "Testing was limited to..."
 
-Error handling implementation
+**Never state:**
 
-Active system state
+- "The control ensures..."
+- "All transactions..."
+- "Complete population..."
 
-Required Supplements
+---
 
-Code inspection
-
-Execution logs
-
-Field-level validation
-
-9️⃣ Scenario-Based Sample Evidence
-
-Examples:
-
-One credit action tested
-
-One payment allocation example
-
-One tolerance case
-
-What It Proves
-
-Logic worked for that scenario
-
-Deterministic outcome observed
-
-What It Does NOT Prove
-
-All branches validated
-
-Boundary cases handled
-
-Sensitivity to attribute change
-
-Completeness of logic
-
-Required Supplements
-
-Boundary case
-
-Negative case
-
-Sensitivity test
-
-🔟 Reconciliation Evidence (Counts / Balances)
-What It Proves
-
-No dropped records (if properly tied out)
-
-Total balance integrity
-
-Before/after comparisons
-
-What It Does NOT Prove
-
-Correct individual record transformation
-
-Correct routing logic
-
-No duplicate processing
-
-Required Supplements
-
-Field-level comparison
-
-Deduplication testing
-
-Grouping key validation
-
-IPE Trigger Guide
-
-IPE procedures are required when:
-
-Testing relies on reports
-
-Query outputs are used as population
-
-Dashboard exports are relied upon
-
-Reconciliation spreadsheets are provided
-
-Record counts are used to conclude completeness
-
-Minimum IPE validation:
-
-Confirm source system
-
-Confirm parameter filters
-
-Confirm timeframe
-
-Tie record count to independent source
-
-Spot-check fields
-
-Evidence Strength Ranking (Strongest to Weakest)
-
-Code + Production execution logs + Scenario outputs
-
-Code + Scenario outputs + Parameter snapshot
-
-Scenario outputs + Monitoring logs
-
-UI screenshots alone
-
-Narrative explanations only
-
-Claude should not conclude operating effectiveness using evidence types ranked 4 or 5 alone.
-
-Escalation Triggers
-
-Escalate if:
-
-No boundary testing
-
-No negative scenario
-
-Parameter tables not governed
-
-QA-only evidence provided
-
-No production execution validation
-
-Logic differs from documented policy
-
-Single sample used to conclude determinism
-
-Default Conclusion Guardrail
-
-When evidence is partial:
-
-Use language such as:
-
-“Based on evidence inspected…”
-
-“For the in-scope scenario…”
-
-“No exceptions were noted for the sample reviewed…”
-
-“Testing was limited to…”
-
-Never state:
-
-“The control ensures…”
-
-“All transactions…”
-
-“Complete population…”
+*This reference guide supports IT audit documentation workflows.
+It does not replace professional judgment or formal audit standards.*
