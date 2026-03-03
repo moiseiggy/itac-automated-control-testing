@@ -1,469 +1,308 @@
-Automated Control Objective → Testing Approach Mapper
+# Automated Control Objective → Testing Approach Mapper
 
-This document maps ITAC control objectives to:
+> This document maps ITAC control objectives to required testing approaches,
+> scenario dimensions, matrices, IPE requirements, and escalation indicators.
+>
+> Claude uses this to structure outputs intelligently.
 
-Required testing approach
+---
 
-Required scenario dimensions
+## Mapper Index
 
-Required matrices
+| # | Control Type | Core Objective |
+|---|---|---|
+| 1 | Approval Routing / Decision Engine | Route transactions to appropriate approval authority |
+| 2 | Threshold / Tolerance | Trigger automated logic when financial or risk thresholds are met |
+| 3 | Financial Allocation | Allocate transactions per defined sequencing and business rules |
+| 4 | Aggregation / Exposure Calculation | Accurately compute risk or financial values |
+| 5 | Data Transformation Logic | Preserve integrity of key data elements |
+| 6 | Modernization / Migration | Maintain control logic integrity post-migration |
 
-IPE requirements
+---
 
-Design vs Operating considerations
+## 1. Approval Routing / Decision Engine Controls
 
-Common failure risks
+**Objective:** Ensure transactions route to the appropriate approval authority
+based on defined attributes.
 
-Escalation indicators
+**Common Inputs:** Risk Rating · LGD / PD · Exposure · Product Type · Region · Customer Segment
 
-Claude must use this to structure outputs intelligently.
+### Required Testing Approach
 
-1️⃣ Approval Routing / Decision Engine Controls
-Objective Type:
+- Positive scenario
+- Elevated risk scenario
+- Lower-bound scenario
+- Upper-bound scenario
+- Attribute sensitivity testing
+- Negative / exclusion scenario
 
-Ensure transactions route to appropriate approval authority based on defined attributes.
+### Required Matrices
 
-Common Inputs:
+- Scenario-Based Logic Validation Matrix
+- Sensitivity Testing Matrix
+- Parameter Table Validation Matrix *(if grid-based)*
 
-Risk Rating
-
-LGD / PD
-
-Exposure
-
-Product Type
-
-Region
-
-Customer Segment
-
-Required Testing Approach:
-
-Positive scenario
-
-Elevated risk scenario
-
-Lower-bound scenario
-
-Upper-bound scenario
-
-Attribute sensitivity testing
-
-Negative/exclusion scenario
-
-Required Matrices:
-
-Scenario-Based Logic Validation Matrix
-
-Sensitivity Testing Matrix
-
-Parameter Table Validation Matrix (if grid-based)
-
-IPE Required?
-
+### IPE Required?
 Yes — if routing output is reported or exported.
 
-Design Effectiveness Focus:
+### Effectiveness Focus
 
-Does logic reflect documented policy?
+| Dimension | What to Evaluate |
+|---|---|
+| Design | Does logic reflect documented policy? Is OR vs. AND logic correct? Are grid mappings accurate? Are edge cases documented? |
+| Operating | Evidence of real transaction routing · No manual override without logging · Production validation sample |
 
-Is OR vs AND logic correct?
+### Common Risks
 
-Are grid mappings accurate?
+- OR vs. AND misconfiguration
+- Hard-coded attribute values
+- Silent filtering upstream
+- Missing negative condition testing
+- Grid parameters editable without approval
 
-Are edge cases documented?
+### Escalate If
 
-Operating Effectiveness Focus:
+- Routing logic is undocumented
+- Parameter table is unmonitored
+- No evidence of production scenario
+- No validation of boundary cases
 
-Evidence of real transaction routing
+---
 
-No manual override without logging
+## 2. Threshold / Tolerance Controls
 
-Production validation sample
+**Objective:** Ensure automated logic triggers appropriately when financial or
+risk thresholds are met.
 
-Common Risks:
+**Common Examples:** $X tolerance rule · Exposure trigger threshold · Approval escalation threshold · Exception flag trigger
 
-OR vs AND misconfiguration
+### Required Testing Approach
 
-Hard-coded attribute values
+- Below threshold
+- Exactly at threshold
+- Above threshold
+- Negative input condition
+- Multi-trigger condition *(if applicable)*
 
-Silent filtering upstream
+### Required Matrices
 
-Missing negative condition testing
+- Threshold / Tolerance Validation Matrix
+- Boundary Testing Matrix
 
-Grid parameters editable without approval
-
-Escalate If:
-
-Routing logic undocumented
-
-Parameter table unmonitored
-
-No evidence of production scenario
-
-No validation of boundary cases
-
-2️⃣ Threshold / Tolerance Controls
-Objective Type:
-
-Ensure automated logic triggers appropriately when financial or risk thresholds are met.
-
-Common Examples:
-
-$X tolerance rule
-
-Exposure trigger threshold
-
-Approval escalation threshold
-
-Exception flag trigger
-
-Required Testing Approach:
-
-Below threshold
-
-Exactly at threshold
-
-Above threshold
-
-Negative input condition
-
-Multi-trigger condition (if applicable)
-
-Required Matrices:
-
-Threshold / Tolerance Validation Matrix
-
-Boundary Testing Matrix
-
-IPE Required?
-
+### IPE Required?
 Sometimes — if tolerance output is reported externally.
 
-Design Effectiveness Focus:
+### Effectiveness Focus
 
-Is threshold documented?
+| Dimension | What to Evaluate |
+|---|---|
+| Design | Is threshold documented? Is value configurable? Is rounding logic considered? Are equality conditions handled correctly? |
+| Operating | Sample where threshold triggered · Sample where threshold did not trigger · Production evidence of trigger logic |
 
-Is value configurable?
+### Common Risks
 
-Is rounding logic considered?
+- `=` vs `>` logic errors
+- Hard-coded tolerance values
+- Boundary condition not tested
+- Rounding misapplied
 
-Are equality conditions handled correctly?
+### Escalate If
 
-Operating Effectiveness Focus:
+- No documentation of threshold rationale
+- No boundary testing performed
+- Parameter change not monitored
 
-Sample where threshold triggered
+---
 
-Sample where threshold did not trigger
+## 3. Financial Allocation Controls
 
-Production evidence of trigger logic
+**Objective:** Ensure financial transactions are allocated according to defined
+sequencing and business rules.
 
-Common Risks:
+**Common Examples:** Principal vs. interest allocation · Payment sequencing · Partial payment handling · Fee prioritization
 
-= vs > logic errors
+### Required Testing Approach
 
-Hard-coded tolerance values
+- Standard payment
+- Partial payment
+- Overpayment
+- Multi-component balance
+- Tolerance rule interaction *(if applicable)*
 
-Boundary condition not tested
+### Required Matrices
 
-Rounding misapplied
+- Allocation Logic Validation Matrix
+- Tolerance Impact Matrix
 
-Escalate If:
-
-No documentation of threshold rationale
-
-No boundary testing performed
-
-Parameter change not monitored
-
-3️⃣ Financial Allocation Controls
-Objective Type:
-
-Ensure financial transactions are allocated according to defined sequencing and business rules.
-
-Common Examples:
-
-Principal vs Interest allocation
-
-Payment sequencing
-
-Partial payment handling
-
-Fee prioritization
-
-Required Testing Approach:
-
-Standard payment
-
-Partial payment
-
-Overpayment
-
-Multi-component balance
-
-Tolerance rule interaction (if applicable)
-
-Required Matrices:
-
-Allocation Logic Validation Matrix
-
-Tolerance Impact Matrix
-
-IPE Required?
-
+### IPE Required?
 Yes — if allocation results feed financial reporting.
 
-Design Effectiveness Focus:
+### Effectiveness Focus
 
-Sequencing logic
+| Dimension | What to Evaluate |
+|---|---|
+| Design | Sequencing logic · Ordering keys · Priority rules · Edge-case handling |
+| Operating | Balance before/after validation · Transaction-level evidence · No unexplained variance |
 
-Ordering keys
+### Common Risks
 
-Priority rules
+- Allocation order incorrect
+- Hidden sequencing key
+- Partial payments mishandled
+- Balance impact not reconciled
 
-Edge-case handling
+### Escalate If
 
-Operating Effectiveness Focus:
+- Allocation code not reviewed
+- No balance reconciliation
+- No test of edge conditions
 
-Balance before/after validation
+---
 
-Transaction-level evidence
+## 4. Aggregation / Exposure Calculation Controls
 
-No unexplained variance
+**Objective:** Ensure automated aggregation logic accurately computes risk or
+financial values.
 
-Common Risks:
+**Common Examples:** MEA / MPE calculations · Exposure roll-ups · Risk scoring aggregation · Master file generation
 
-Allocation order incorrect
+### Required Testing Approach
 
-Hidden sequencing key
+- Multiple input records scenario
+- Single input scenario
+- Modified attribute sensitivity test
+- Edge-case input
 
-Partial payments mishandled
+### Required Matrices
 
-Balance impact not reconciled
+- Aggregation / Transformation Matrix
+- Sensitivity Testing Matrix
 
-Escalate If:
-
-Allocation code not reviewed
-
-No balance reconciliation
-
-No test of edge conditions
-
-4️⃣ Aggregation / Exposure Calculation Controls
-Objective Type:
-
-Ensure automated aggregation logic accurately computes risk or financial values.
-
-Common Examples:
-
-MEA / MPE calculations
-
-Exposure roll-ups
-
-Risk scoring aggregation
-
-Master file generation
-
-Required Testing Approach:
-
-Multiple input records scenario
-
-Single input scenario
-
-Modified attribute sensitivity test
-
-Edge-case input
-
-Required Matrices:
-
-Aggregation / Transformation Matrix
-
-Sensitivity Testing Matrix
-
-IPE Required?
-
+### IPE Required?
 Yes — typically feeds reporting.
 
-Design Effectiveness Focus:
+### Effectiveness Focus
 
-Aggregation formula accuracy
+| Dimension | What to Evaluate |
+|---|---|
+| Design | Aggregation formula accuracy · Inclusion/exclusion rules · Grouping keys validated |
+| Operating | Field-level comparison · Output tie-out to independent calculation · Production sample validation |
 
-Inclusion/exclusion rules
+### Common Risks
 
-Grouping keys validated
+- Missing records in aggregation
+- Duplicate inclusion
+- Silent filtering
+- Incorrect grouping key
 
-Operating Effectiveness Focus:
+### Escalate If
 
-Field-level comparison
+- Aggregation rule undocumented
+- No independent recalculation
+- No validation of grouping logic
 
-Output tie-out to independent calculation
+---
 
-Production sample validation
+## 5. Data Transformation Logic (Business Impacting)
 
-Common Risks:
+**Objective:** Ensure transformation logic preserves integrity of key data elements.
 
-Missing records in aggregation
+**Common Examples:** KDE mapping · Field conversions · Status flag generation · Classification logic
 
-Duplicate inclusion
+### Required Testing Approach
 
-Silent filtering
+- Field-level comparison
+- Scenario-based transformation validation
+- Sensitivity testing
+- Negative scenario
 
-Incorrect grouping key
+### Required Matrices
 
-Escalate If:
+- Transformation Matrix
+- KDE Validation Matrix
 
-Aggregation rule undocumented
-
-No independent recalculation
-
-No validation of grouping logic
-
-5️⃣ Data Transformation Logic (Business Impacting)
-Objective Type:
-
-Ensure transformation logic preserves integrity of key data elements.
-
-Common Examples:
-
-KDE mapping
-
-Field conversions
-
-Status flag generation
-
-Classification logic
-
-Required Testing Approach:
-
-Field-level comparison
-
-Scenario-based transformation validation
-
-Sensitivity testing
-
-Negative scenario
-
-Required Matrices:
-
-Transformation Matrix
-
-KDE Validation Matrix
-
-IPE Required?
-
+### IPE Required?
 Yes — if relied upon for downstream decisions.
 
-Design Effectiveness Focus:
+### Effectiveness Focus
 
-Mapping documentation
+| Dimension | What to Evaluate |
+|---|---|
+| Design | Mapping documentation · Transformation formula accuracy · Conditional logic tested |
+| Operating | Sample field tie-out · Before/after validation · No unexpected transformation |
 
-Transformation formula accuracy
+### Common Risks
 
-Conditional logic tested
+- Field mis-mapping
+- Hard-coded exclusions
+- Missing conditional branch
+- Silent null handling
 
-Operating Effectiveness Focus:
+### Escalate If
 
-Sample field tie-out
+- No mapping documentation
+- No production sample
+- No independent validation
 
-Before/after validation
+---
 
-No unexpected transformation
+## 6. Modernization / Migration of ITAC Logic
 
-Common Risks:
+**Objective:** Ensure control logic integrity is maintained post-migration.
 
-Field mis-mapping
+### Required Testing Approach
 
-Hard-coded exclusions
+- Pre/post comparison
+- Edge-case comparison
+- Parameter integrity validation
+- Monitoring validation
 
-Missing conditional branch
+### Required Matrices
 
-Silent null handling
+- Migration Comparison Matrix
+- Edge Case Validation Matrix
 
-Escalate If:
-
-No mapping documentation
-
-No production sample
-
-No independent validation
-
-6️⃣ Modernization / Migration of ITAC Logic
-Objective Type:
-
-Ensure control logic integrity maintained post-migration.
-
-Required Testing Approach:
-
-Pre/post comparison
-
-Edge-case comparison
-
-Parameter integrity validation
-
-Monitoring validation
-
-Required Matrices:
-
-Migration Comparison Matrix
-
-Edge Case Validation Matrix
-
-IPE Required?
-
+### IPE Required?
 Usually yes.
 
-Design Effectiveness Focus:
+### Effectiveness Focus
 
-Logic unchanged
+| Dimension | What to Evaluate |
+|---|---|
+| Design | Logic unchanged · Parameters migrated correctly · No new filtering introduced |
+| Operating | Production evidence from new environment · No unexpected variance |
 
-Parameters migrated correctly
+### Common Risks
 
-No new filtering introduced
+- Lift-and-shift claim without validation
+- New rounding behavior introduced
+- Table structure changes
+- Monitoring not migrated
 
-Operating Effectiveness Focus:
+### Escalate If
 
-Production evidence from new environment
+- No comparison performed
+- No evidence of production execution
+- No review of configuration
 
-No unexpected variance
+---
 
-Common Risks:
+## Master Rule for Claude
 
-Lift-and-shift claim without validation
+When evaluating any ITAC control:
 
-New rounding behavior
+1. Identify the objective type
+2. Identify the logic type
+3. Determine if IPE applies
+4. Require boundary testing where a threshold exists
+5. Require sensitivity testing where attributes drive decisions
+6. Separate design and operating effectiveness
+7. Do not allow single-scenario validation
+8. Flag hard-coded logic
+9. Flag undocumented parameters
+10. Scope conclusions strictly to inspected evidence
 
-Table structure changes
+---
 
-Monitoring not migrated
-
-Escalate If:
-
-No comparison performed
-
-No evidence of production execution
-
-No review of configuration
-
-Master Rule for Claude
-
-When evaluating ITAC:
-
-Identify objective type.
-
-Identify logic type.
-
-Determine if IPE applies.
-
-Require boundary testing where threshold exists.
-
-Require sensitivity testing where attributes drive decisions.
-
-Separate design and operating effectiveness.
-
-Do not allow single-scenario validation.
-
-Flag hard-coded logic.
-
-Flag undocumented parameters.
-
-Scope conclusions strictly to inspected evidence.
+*This mapper provides structured reasoning guidance for IT audit workflows.
+It does not replace professional judgment or formal audit standards.*
