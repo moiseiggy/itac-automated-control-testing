@@ -1,213 +1,160 @@
-ITAC Automated Control Testing Skill
-Description
+# ITAC Automated Control Testing Skill
 
-Generate structured ITAC (Information Technology Application Control) testing documentation from technical and business-process evidence, including code snippets, configuration screenshots, data outputs, parameter tables, allocation datasets, routing logic, and threshold rules.
+> Generate structured ITAC (IT Application Control) testing documentation
+> from technical and business-process evidence — code snippets, configuration
+> screenshots, data outputs, parameter tables, allocation datasets, routing
+> logic, and threshold rules.
 
-Use when the user asks to:
+---
 
-“Validate automated logic”
+## Activation Triggers
 
-“Draft ITAC testing documentation”
+Use this skill when asked to:
 
-“Build scenario test matrix”
+- "Validate automated logic"
+- "Draft ITAC testing documentation"
+- "Build a scenario test matrix"
+- "Validate tolerance logic"
+- "Document routing logic testing"
+- "Assess allocation logic"
+- "Separate design vs. operating effectiveness"
+- "Draft IPE validation"
+- "Make sense of this automated control"
 
-“Validate tolerance logic”
+---
 
-“Document routing logic testing”
-
-“Assess allocation logic”
-
-“Separate design vs operating effectiveness”
-
-“Draft IPE validation”
-
-“Make sense of this automated control”
-
-Purpose
+## Purpose
 
 This skill standardizes documentation for automated controls that:
 
-Perform deterministic decision logic
+- Perform deterministic decision logic
+- Execute financial allocation
+- Route transactions based on attributes
+- Apply tolerance thresholds
+- Aggregate or transform business data
+- Generate automated outputs relied upon for financial reporting
 
-Execute financial allocation
+---
 
-Route transactions based on attributes
+## Core Principles
 
-Apply tolerance thresholds
+### 1. Separate Design and Operating Effectiveness
 
-Aggregate or transform business data
+| Dimension | What It Evaluates |
+|---|---|
+| **Design** | Whether logic aligns with documented requirements · Whether thresholds and parameters are appropriate · Whether edge cases are addressed |
+| **Operating** | Whether logic executed correctly during the in-scope period · Whether outputs match expected behavior · Whether monitoring captured failures |
 
-Generate automated outputs relied upon for financial reporting
+---
 
-Core Principles
-1️⃣ Separate Design and Operating Effectiveness
+### 2. Deterministic Logic Must Be Scenario Tested
 
-Design Effectiveness evaluates:
+Automated controls require all four of the following:
 
-Whether logic aligns with documented requirements
+- Positive testing
+- Negative testing
+- Boundary testing
+- Sensitivity testing
 
-Whether thresholds and parameters are appropriate
+Single "happy path" testing is never sufficient.
 
-Whether edge cases are addressed
+---
 
-Operating Effectiveness evaluates:
+### 3. Always Evaluate IPE
 
-Whether logic executed correctly during the in-scope period
+If the control relies on reports, data extracts, aggregated datasets,
+or system-generated files — IPE completeness and accuracy must be
+considered separately from the control itself.
 
-Whether outputs match expected behavior
+---
 
-Whether monitoring captured failures
+### 4. Avoid Overstating Assurance
 
-2️⃣ Deterministic Logic Must Be Scenario Tested
+| Instead of... | Use... |
+|---|---|
+| "The control ensures..." | "Based on the procedures performed, the logic appears to function as designed." |
+| "All transactions are..." | "For the in-scope sample reviewed..." |
+| "Complete population..." | "Based on evidence inspected..." |
 
-Automated controls require:
+---
 
-Positive testing
+## Automated Control Types Supported
 
-Negative testing
+- Approval routing logic
+- Risk-based decision engines
+- Financial allocation controls
+- Tolerance threshold controls
+- Aggregation logic (MEA / MPE)
+- Data transformation impacting financial reporting
+- Master file generation logic
+- Automated reconciliations
+- Migration / logic modernization testing
 
-Boundary testing
+---
 
-Sensitivity testing
+## Output Structure
 
-Single “happy path” testing is insufficient.
+When activated, this skill executes in the following sequence:
 
-3️⃣ Always Evaluate IPE (Information Produced by the Entity)
+1. Identify the control objective
+2. Determine the logic type — Routing · Threshold · Allocation · Aggregation · Transformation
+3. Determine whether IPE applies
+4. Separate Design Effectiveness from Operating Effectiveness
+5. Select the appropriate matrix template
+6. Identify risks and red flags
+7. Flag missing evidence where applicable
 
-If the control relies on:
+---
 
-Reports
+## Risk Indicators to Flag
 
-Data extracts
+| Risk | Description |
+|---|---|
+| Hard-coded thresholds | Values embedded in code rather than governed config |
+| OR vs. AND misconfiguration | Multi-condition logic applied incorrectly |
+| Missing negative testing | No exclusion or rejection scenario tested |
+| Missing boundary testing | Threshold edges not validated |
+| Unvalidated parameter tables | Config values not independently confirmed |
+| Silent filtering logic | Records excluded upstream without disclosure |
+| Manual overrides not logged | Exceptions processed outside audit trail |
+| Legacy-embedded logic | Rules buried in undocumented legacy components |
+| No production deployment evidence | Code reviewed but deployment unconfirmed |
 
-Aggregated datasets
+---
 
-System-generated files
+## Documentation Guardrails
 
-Then IPE completeness and accuracy must be considered separately.
+- Do not assume logic is deployed unless evidenced
+- Do not assume parameter completeness without validation
+- Do not assume no exceptions = effective control
+- Do not assume a single sample proves universal logic behavior
 
-4️⃣ Avoid Overstating Assurance
+---
 
-Never state:
+## Escalation Indicators
 
-“The control ensures…”
+Escalate if any of the following are present:
 
-Instead state:
+- No documentation of the underlying business rule
+- Threshold logic is undocumented
+- Parameter tables are editable without monitoring
+- No testing of edge or boundary cases
+- No production validation evidence
+- Financial impact materiality is unclear
 
-“Based on the procedures performed, the logic appears to function as designed.”
+---
 
-Automated Control Types Supported
+## Tone Requirements
 
-This skill applies to:
+All outputs must be:
 
-Approval routing logic
+- Structured and audit-defensible
+- Risk-aware and technically accurate
+- Business-context aware
+- Clear and concise
 
-Risk-based decision engines
+---
 
-Financial allocation controls
-
-Tolerance threshold controls
-
-Aggregation logic (e.g., MEA / MPE)
-
-Data transformation impacting financial reporting
-
-Master file generation logic
-
-Automated reconciliations
-
-Migration / logic modernization testing
-
-Output Structure Rules
-
-When activated, the skill must:
-
-Identify control objective
-
-Determine logic type:
-
-Routing
-
-Threshold
-
-Allocation
-
-Aggregation
-
-Transformation
-
-Determine whether IPE applies
-
-Separate:
-
-Design Effectiveness
-
-Operating Effectiveness
-
-Select appropriate matrix template
-
-Identify risks and red flags
-
-Flag missing evidence if applicable
-
-Risk Indicators to Flag
-
-Hard-coded thresholds
-
-OR vs AND misconfiguration
-
-Missing negative testing
-
-Lack of boundary testing
-
-Unvalidated parameter tables
-
-Silent filtering logic
-
-Manual overrides not logged
-
-Logic embedded in legacy components
-
-No evidence of production deployment
-
-Documentation Guardrails
-
-Do not assume logic deployed unless evidenced.
-
-Do not assume parameter completeness without validation.
-
-Do not assume no exceptions = effective control.
-
-Do not assume single sample proves universal logic.
-
-Escalation Indicators
-
-Escalate if:
-
-No documentation of business rule
-
-Threshold logic undocumented
-
-Parameter tables editable without monitoring
-
-No testing of edge cases
-
-No production validation
-
-Financial impact materiality unclear
-
-Tone Requirements
-
-Outputs must be:
-
-Structured
-
-Audit-defensible
-
-Risk-aware
-
-Technically accurate
-
-Business-context aware
-
-Clear and concise
+*This skill provides documentation structure and workflow guidance for
+IT audit and SOX testing workflows. It does not replace professional
+judgment, control design evaluation, or formal audit standards.*
